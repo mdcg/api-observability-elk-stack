@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "api-observability-elk-stack"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
+pydantic = "^2.10.3"
+pydantic-settings = "^2.6.1"
+sqlalchemy = "^2.0.36"
+psycopg2-binary = "^2.9.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
