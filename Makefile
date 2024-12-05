@@ -1,4 +1,5 @@
 POETRY_VERSION :=$(shell poetry --version)
+LOCAL_DB_CONN := postgresql+psycopg2://$(DATABASE_USER):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
 
 poetry/setup:
 ifdef POETRY_VERSION
@@ -34,3 +35,15 @@ code-quality/format:
 
 code-quality/tests:
 	poetry run pytest tests/
+
+dependencies/database/migrate:
+	poetry run alembic -x DB_URL=$(LOCAL_DB_CONN) upgrade head
+
+dependencies/database/migrate/autogenerate:
+	poetry run alembic -x DB_URL=$(LOCAL_DB_CONN) revision --autogenerate -m "$(name)"
+
+dependencies/database/down:
+	poetry run alembic -x DB_URL=$(LOCAL_DB_CONN) downgrade $(revision)
+
+dependencies/database/migrate/create:
+	poetry run alembic revision -m "$(name)"
