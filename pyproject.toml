@@ -16,6 +16,12 @@ psycopg2-binary = "^2.9.10"
 alembic = "^1.14.0"
 
 
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+factory-boy = "^3.3.1"
+faker = "^33.1.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
