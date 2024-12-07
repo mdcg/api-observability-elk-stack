@@ -12,5 +12,9 @@ class TaskRepositoryFixtures:
         }
 
     @fixture
-    def task(self):
+    def task_model(self):
         return TaskModelFactory.create(is_completed=False)
+
+    @fixture
+    def task_model_batch(self):
+        return TaskModelFactory.create_batch(size=10, is_completed=False)

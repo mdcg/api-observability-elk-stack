@@ -1,7 +1,7 @@
 from factory import Faker
 
-from tests.factories import DbModelFactory
 from task_service.infrastructure.database.models.task_model import TaskModel
+from tests.factories import DbModelFactory
 
 
 class TaskModelFactory(DbModelFactory):

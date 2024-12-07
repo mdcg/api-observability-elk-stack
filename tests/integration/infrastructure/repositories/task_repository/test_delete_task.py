@@ -1,5 +1,14 @@
-from tests.integration.infrastructure.repositories.task_repository.task_repository_fixtures import TaskRepositoryFixtures
+from task_service.infrastructure.database.models.task_model import TaskModel
+from task_service.infrastructure.repositories.task_repository import TaskRepository
+from tests.integration.infrastructure.repositories.task_repository.task_repository_fixtures import (
+    TaskRepositoryFixtures,
+)
 
 
 class TestDeleteTask(TaskRepositoryFixtures):
-    pass
+    def test_repository_should_delete_task_successfully(self, session, task_model):
+        repository = TaskRepository(session)
+        assert len(repository.get_tasks()) == 1
+
+        repository.delete_task(task_id=task_model.id)
+        assert len(repository.get_tasks()) == 0

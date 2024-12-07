@@ -1,10 +1,11 @@
 from sqlalchemy.orm import Session
+
 from task_service.infrastructure.database.models.task_model import TaskModel
 
 
 class TaskRepository:
     def __init__(self, session: Session):
-        self.session = session 
+        self.session = session
 
     def create_task(self, title: str, description: str = None):
         task = TaskModel(title=title, description=description)
