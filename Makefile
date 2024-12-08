@@ -50,3 +50,6 @@ dependencies/database/migrate/create:
 
 runserver:
 	uvicorn task_service.application.api:app --host 0.0.0.0 --port 8000 --reload
+
+test:
+	pytest tests/ --cov=task_service --cov-report xml --cov-report term --cov-report html --no-cov-on-fail

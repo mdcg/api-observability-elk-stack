@@ -10,7 +10,12 @@ class TestUpdateTaskStatus(TaskRepositoryFixtures):
         repository = TaskRepository(session)
         assert task_model.is_completed is False
 
-        task = repository.update_task_status(task_id=task_model.id, is_completed=True)
+        task = repository.update_task_status(task_id=task_model.id)
 
         assert task_model.id == task.id
         assert task.is_completed is True
+
+    def test_repository_should_return_none_if_task_doesnt_exist(self, session):
+        repository = TaskRepository(session)
+        task = repository.update_task_status(task_id=999)
+        assert task is None

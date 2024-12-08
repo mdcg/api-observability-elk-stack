@@ -34,13 +34,14 @@ class TaskRepository:
 
         return task.to_entity()
 
-    def update_task_status(self, task_id: int, is_completed: bool):
+    def update_task_status(self, task_id: int):
         try:
             task = self.__get_task_model_by_id(task_id)
         except TaskNotFoundError:
             return None
 
-        task.is_completed = is_completed
+        task.is_completed = not task.is_completed
+
         self.session.flush()
         self.session.refresh(task)
 

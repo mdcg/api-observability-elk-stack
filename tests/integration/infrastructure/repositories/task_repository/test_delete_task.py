@@ -12,3 +12,8 @@ class TestDeleteTask(TaskRepositoryFixtures):
 
         repository.delete_task(task_id=task_model.id)
         assert len(repository.get_tasks()) == 0
+
+    def test_repository_should_return_none_if_task_doesnt_exist(self, session):
+        repository = TaskRepository(session)
+        task = repository.delete_task(task_id=999)
+        assert task is None
