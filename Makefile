@@ -47,3 +47,6 @@ dependencies/database/down:
 
 dependencies/database/migrate/create:
 	poetry run alembic revision -m "$(name)"
+
+runserver:
+	uvicorn task_service.application.api:app --host 0.0.0.0 --port 8000 --reload

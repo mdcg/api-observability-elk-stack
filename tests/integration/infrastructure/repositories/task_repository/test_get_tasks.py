@@ -1,3 +1,4 @@
+from task_service.domain.entities.task import Task
 from task_service.infrastructure.database.models.task_model import TaskModel
 from task_service.infrastructure.repositories.task_repository import TaskRepository
 from tests.integration.infrastructure.repositories.task_repository.task_repository_fixtures import (
@@ -11,4 +12,4 @@ class TestGetTasks(TaskRepositoryFixtures):
         tasks = repository.get_tasks()
         assert len(tasks) == 10
         for task in tasks:
-            assert isinstance(task, TaskModel)
+            assert isinstance(task, Task)

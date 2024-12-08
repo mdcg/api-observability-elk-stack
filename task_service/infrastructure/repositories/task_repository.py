@@ -1,11 +1,19 @@
 from sqlalchemy.orm import Session
 
 from task_service.infrastructure.database.models.task_model import TaskModel
+from task_service.infrastructure.repositories.exceptions import TaskNotFoundError
 
 
 class TaskRepository:
     def __init__(self, session: Session):
         self.session = session
+
+    def __get_task_model_by_id(self, task_id: int):
+        task = self.session.get(TaskModel, task_id)
+        if not task:
+            raise TaskNotFoundError(task_id)
+
+        return task
 
     def create_task(self, title: str, description: str = None):
         task = TaskModel(title=title, description=description)
@@ -13,27 +21,38 @@ class TaskRepository:
         self.session.flush()
         self.session.refresh(task)
 
-        return task
+        return task.to_entity()
 
     def get_tasks(self):
-        return self.session.query(TaskModel).all()
+        return [task_model.to_entity() for task_model in self.session.query(TaskModel).all()]
 
     def get_task_by_id(self, task_id: int):
-        return self.session.query(TaskModel).filter(TaskModel.id == task_id).first()
+        try:
+            task = self.__get_task_model_by_id(task_id)
+        except TaskNotFoundError:
+            return None
+
+        return task.to_entity()
 
     def update_task_status(self, task_id: int, is_completed: bool):
-        task = self.get_task_by_id(task_id)
-        if task:
-            task.is_completed = is_completed
-            self.session.flush()
-            self.session.refresh(task)
+        try:
+            task = self.__get_task_model_by_id(task_id)
+        except TaskNotFoundError:
+            return None
 
-        return task
+        task.is_completed = is_completed
+        self.session.flush()
+        self.session.refresh(task)
+
+        return task.to_entity()
 
     def delete_task(self, task_id: int):
-        task = self.get_task_by_id(task_id)
-        if task:
-            self.session.delete(task)
-            self.session.flush()
+        try:
+            task = self.__get_task_model_by_id(task_id)
+        except TaskNotFoundError:
+            return None
+
+        self.session.delete(task)
+        self.session.flush()
 
         return task
