@@ -1,4 +1,8 @@
+[run]
+omit = task_service/infrastructure/database/connection.py
+
 [report]
+omit = task_service/infrastructure/database/connection.py
 exclude_lines =
     pass
     pragma: no cover

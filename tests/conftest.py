@@ -1,7 +1,7 @@
 import pytest
 from starlette.testclient import TestClient
 
-# from task_service.api import app
+from task_service.application.api import app
 from task_service.infrastructure.database import connection
 from task_service.infrastructure.database.connection import SessionLocal
 
@@ -26,5 +26,5 @@ def client(session):
         finally:
             session.close()
 
-    # app.dependency_overrides[connection.session] = override_session
-    # yield TestClient(app)
+    app.dependency_overrides[connection.session] = override_session
+    yield TestClient(app)
